@@ -96,7 +96,7 @@ module Sequent
 
       def migrate(migrations_path, verbose: true)
         ActiveRecord::Migration.verbose = verbose
-        if ActiveRecord::VERSION::MAJOR >= 5 && ActiveRecord::VERSION::MINOR >= 2
+        if ActiveRecord.version.version >= '5.2'
           ActiveRecord::MigrationContext.new([migrations_path]).up
         else
           ActiveRecord::Migrator.migrate(migrations_path)
