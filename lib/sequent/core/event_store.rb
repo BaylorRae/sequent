@@ -4,6 +4,11 @@ require_relative 'sequent_oj'
 
 module Sequent
   module Core
+    class EventStoreHooks
+      def self.before_commit(command, event)
+        # noop
+      end
+    end
 
     class EventStore
       include ActiveRecord::ConnectionAdapters::Quoting
@@ -187,6 +192,8 @@ SELECT aggregate_id
             event_stream.stream_record_id = stream_record.id
           end
           uncommitted_events.map do |event|
+            Sequent.configuration.event_store_hooks_class.before_commit(command, event)
+
             Sequent.configuration.event_record_class.new.tap do |record|
               record.command_record_id = command_record.id
               record.stream_record_id = event_stream.stream_record_id

@@ -24,6 +24,7 @@ module Sequent
     DEFAULT_OFFLINE_REPLAY_PERSISTOR_CLASS = Sequent::Core::Persistors::ActiveRecordPersistor
     DEFAULT_ONLINE_REPLAY_PERSISTOR_CLASS = Sequent::Core::Persistors::ActiveRecordPersistor
 
+    DEFAULT_EVENT_STORE_HOOKS_CLASS = Sequent::Core::EventStoreHooks
     DEFAULT_EVENT_RECORD_HOOKS_CLASS = Sequent::Core::EventRecordHooks
 
     DEFAULT_STRICT_CHECK_ATTRIBUTES_ON_APPLY_EVENTS = false
@@ -38,7 +39,8 @@ module Sequent
                   :transaction_provider,
                   :event_publisher
 
-    attr_accessor :event_record_hooks_class
+    attr_accessor :event_store_hooks_class,
+                  :event_record_hooks_class
 
     attr_accessor :command_handlers,
                   :command_filters
@@ -101,6 +103,7 @@ module Sequent
       self.migrations_class_name = MIGRATIONS_CLASS_NAME
       self.number_of_replay_processes = DEFAULT_NUMBER_OF_REPLAY_PROCESSES
 
+      self.event_store_hooks_class = DEFAULT_EVENT_STORE_HOOKS_CLASS
       self.event_record_hooks_class = DEFAULT_EVENT_RECORD_HOOKS_CLASS
 
       self.offline_replay_persistor_class = DEFAULT_OFFLINE_REPLAY_PERSISTOR_CLASS
